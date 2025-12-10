@@ -1,80 +1,493 @@
-/* ===== BASIC ===== */ 
-body 
-{ font-family: Arial; margin:0; padding:0; background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('../img/beground.jpeg'); background-size: cover; background-position: center; background-attachment: fixed; color:white; } 
-/* ===== HEADER ===== */ 
-header 
-{ background: rgba(140, 198, 63, 0.85); 
-  padding: 10px 0; box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-   animation: slideDown 0.6s ease-in-out; 
-   backdrop-filter: blur(4px); }
-   @keyframes slideDown { from {transform: translateY(-50px); opacity:0;} to {transform: translateY(0); opacity:1;} } 
-   /* ===== NAVBAR ===== */ 
-   .navbar 
-   { display:flex; justify-content:space-between; align-items:center; padding:0 50px; background:transparent; } 
-   .logo 
-   { font-size:28px; color:white; font-weight:bold; } .navbar ul { display:flex; gap:25px; list-style:none; } 
-   .navbar a { text-decoration:none; color:white; font-size:18px; padding:6px 10px; border-radius:5px; transition:0.3s; } .navbar a:hover { background:#F7931E; } 
-   /* iframe navbar */ 
-   .navframe 
-   { width: 100%; height: 80px; border: none; } 
-   /* ===== HERO ===== */ 
-   .hero
-    { background: rgba(247,147,30,0.85); padding:40px; text-align:left; display:flex; justify-content:center; align-items:center; gap:40px; color:white; border-radius: 15px; width: 85%; margin:40px auto; backdrop-filter: blur(3px); } 
-    .hero-text h1 
-    { font-size:40px; margin-bottom:10px; } 
-    .hero-text p { font-size:18px; }
-    .hero img { width:380px; border-radius:15px; } 
-     /* ===== PRODUCT SECTION ===== */ 
-    .title { text-align:center; font-size:30px; margin-top:40px; color:white; text-shadow:0 2px 5px rgba(0,0,0,0.3); }
-     .product-grid { display:flex; justify-content:center; gap:30px; padding:20px; } 
-     .card { background: rgba(255,255,255,0.9); padding:15px; border-radius:12px; width:250px; box-shadow:0 3px 10px rgba(0,0,0,0.2); text-align:center; color:#333; backdrop-filter: blur(3px); } 
-     .card img { width:100%; border-radius:10px; } 
-     .card h3 { margin-top:15px; }
-     .price { color:#F7931E; font-size:20px; font-weight:bold; } 
-      /* ===== FOOTER ===== */
-       footer { background: rgba(140,198,63,0.85); color:white; text-align:center; padding:15px; margin-top:40px; backdrop-filter: blur(4px); }
-        /* tombol */ 
-        .btn-beli { display:inline-block; background:#F7931E; color:white; padding:10px 15px; border-radius:6px; text-decoration:none; font-size:16px; transition:0.3s; }
-         .btn-beli:hover { background:#d87d14; }
-          /* ===== FORM PEMBELIAN BOX (FIXED) ===== */ 
-          .pembelian-box { width: 420px; /* kotak rapi, tidak melebar */ margin: 50px auto; /* posisi tengah */ background: rgba(255,255,255,0.92); padding: 30px; border-radius: 15px; box-shadow: 0 6px 22px rgba(0,0,0,0.35); color: #333; backdrop-filter: blur(6px); } .pembelian-box h2 { text-align: center; margin-bottom: 20px; font-size: 24px; color: #222; } /* Form rapi ke bawah */ .pembelian-box form { display: flex; flex-direction: column; gap: 12px; } .pembelian-box label { font-weight: bold; margin-bottom: -5px; color: #222; } .pembelian-box input, .pembelian-box textarea, .pembelian-box select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; background: #fff; } .pembelian-box textarea { height: 80px; resize: none; } /* Tombol proses */ .pembelian-box .btn-beli { width: 100%; padding: 12px; margin-top: 5px; background: #F7931E; color: white; border: none; border-radius: 8px; font-size: 17px; cursor: pointer; transition: 0.25s; } .pembelian-box .btn-beli:hover { background: #d87d14; } .form-card { max-width: 450px; margin: 20px auto; background: rgba(255, 255, 255, 0.85); padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); backdrop-filter: blur(6px); display: flex; flex-direction: column; } .form-card form { display: flex; flex-direction: column; gap: 10px; } .form-card input, .form-card textarea, .form-card select { padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; width: 100%; } .form-card textarea { height: 70px; resize: none; } .btn { margin-top: 10px; padding: 12px; background: #ff8c1a; color: #fff; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; transition: 0.2s; } .btn:hover { background: #e67e00; } .pdf-center { text-align: center; margin-top: 20px; } .btn-pdf { display: inline-block; margin-top: 15px; padding: 10px 18px; background: #ff6b00; color: #fff; font-weight: bold; text-decoration: none; border-radius: 8px; transition: 0.2s; } .btn-pdf:hover { background: #e65c00; }
-     /* Agar halaman full tinggi & footer tetap di bawah */ 
-     html, body 
-     { height: 100%; } body { display: flex; flex-direction: column; }
-      footer 
-      { margin-top: auto;
-         /* dorong footer ke paling bawah */ }
-          /* ==== FIXED NAVBAR ==== */
-           header
-            { position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; }
-    /* ==== FIXED NAVBAR ==== */ 
-    header { position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; }
-     /* iframe navbar juga dibuat fixed */ 
-     .navframe { width: 100%; height: 80px; border: none; position: fixed; top: 0; left: 0; z-index: 9998; 
-      /* sedikit di bawah header */ } 
-      /* Atur konten supaya tidak ketiban navbar */ 
-      body
-       { padding-top: 90px !important; display: flex; flex-direction: column; }
-
-
-
-
-       /* BOX khusus untuk halaman keranjang */
-.keranjang-box {
-  width: 85%;
-  margin: 30px auto;
-  background: rgba(255, 255, 255, 0.92);
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 6px 22px rgba(0,0,0,0.35);
-  color: #222;
-  backdrop-filter: blur(5px);
+/* ===== BASIC & GLOBAL ===== */ 
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(rgba(139, 69, 19, 0.85), rgba(210, 105, 30, 0.85)), 
+                url('../img/beground.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #5a3921;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* warna text di tabel biar jelas */
+/* ===== TYPOGRAPHY ===== */
+.brand-name {
+    font-family: 'Dancing Script', cursive;
+    font-size: 48px;
+    color: #f8b400;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.motto {
+    font-family: 'Dancing Script', cursive;
+    font-size: 24px;
+    color: #fff;
+    margin: 10px 0 20px;
+    font-weight: 500;
+}
+
+/* ===== HEADER ===== */ 
+header {
+    background: rgba(120, 67, 20, 0.95); /* Coklat kolak */
+    padding: 10px 0;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    animation: slideDown 0.6s ease-in-out;
+    backdrop-filter: blur(4px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+@keyframes slideDown { 
+    from {transform: translateY(-50px); opacity:0;} 
+    to {transform: translateY(0); opacity:1;} 
+}
+
+/* ===== NAVBAR ===== */ 
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    background: transparent;
+}
+
+.logo {
+    font-family: 'Dancing Script', cursive;
+    font-size: 32px;
+    color: #f8b400;
+    font-weight: bold;
+}
+
+.navbar ul {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.navbar a:hover {
+    background: #f8b400;
+    color: #5a3921;
+}
+
+/* iframe navbar */
+.navframe {
+    width: 100%;
+    height: 80px;
+    border: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+}
+
+/* ===== HERO ===== */ 
+.hero {
+    background: linear-gradient(135deg, rgba(139, 69, 19, 0.9), rgba(210, 105, 30, 0.9));
+    padding: 50px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    color: white;
+    border-radius: 20px;
+    width: 85%;
+    margin: 100px auto 40px;
+    backdrop-filter: blur(3px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.hero-text h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.hero-text p {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.hero-image {
+    width: 400px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+}
+
+/* ===== PROMO BANNER ===== */
+.promo-banner {
+    background: linear-gradient(135deg, #f8b400, #ff6b00);
+    padding: 15px 25px;
+    border-radius: 12px;
+    margin: 25px 0;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(248, 180, 0, 0.4);
+}
+
+.promo-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #5a3921;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.promo-price {
+    font-size: 32px;
+    color: #fff;
+    margin: 5px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.promo-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.9);
+    margin-top: 5px;
+}
+
+/* ===== ORDER BUTTON ===== */
+.order-button {
+    display: inline-block;
+    background: #f8b400;
+    color: #5a3921;
+    padding: 15px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s;
+    margin-top: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.order-button:hover {
+    background: #e6a300;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+/* ===== PRODUCT SECTION ===== */ 
+.title {
+    text-align: center;
+    font-size: 36px;
+    margin: 40px 0 30px;
+    color: #5a3921;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: #f8b400;
+    margin: 10px auto;
+    border-radius: 2px;
+}
+
+.product-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0;
+    border-radius: 15px;
+    width: 280px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    color: #5a3921;
+    backdrop-filter: blur(3px);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 15px 15px 0 0;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card h3 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    color: #5a3921;
+}
+
+.price {
+    color: #f8b400;
+    font-size: 22px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.description {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin: 10px 0;
+    height: 60px;
+    overflow: hidden;
+}
+
+.tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background: rgba(248, 180, 0, 0.2);
+    color: #f8b400;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* ===== FEATURES SECTION ===== */
+.features {
+    background: rgba(255, 248, 225, 0.9);
+    padding: 50px 20px;
+    margin: 60px 0;
+    border-radius: 20px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.feature-item {
+    text-align: center;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+    color: #f8b400;
+}
+
+.feature-item h3 {
+    color: #5a3921;
+    margin: 10px 0;
+}
+
+.feature-item p {
+    color: #666;
+    font-size: 14px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    background: rgba(120, 67, 20, 0.95);
+    color: white;
+    margin-top: auto;
+    padding: 40px 0 20px;
+    backdrop-filter: blur(4px);
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    padding: 0 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-section h3 {
+    color: #f8b400;
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-family: 'Dancing Script', cursive;
+}
+
+.footer-section p {
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.map-container {
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    margin-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8);
+}
+
+/* ===== BUTTONS ===== */
+.btn-beli {
+    display: inline-block;
+    background: #f8b400;
+    color: #5a3921;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-beli:hover {
+    background: #e6a300;
+    transform: scale(1.05);
+}
+
+/* ===== FORM STYLES ===== */
+.pembelian-box, .form-card, .keranjang-box {
+    background: rgba(255, 255, 255, 0.95);
+    color: #5a3921;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-radius: 15px;
+}
+
+.pembelian-box h2, .form-card h2 {
+    color: #5a3921;
+}
+
+.pembelian-box input, 
+.pembelian-box textarea, 
+.pembelian-box select,
+.form-card input, 
+.form-card textarea, 
+.form-card select {
+    border: 2px solid #e0d6c2;
+    background: #fffaf0;
+}
+
+.pembelian-box input:focus, 
+.pembelian-box textarea:focus, 
+.pembelian-box select:focus,
+.form-card input:focus, 
+.form-card textarea:focus, 
+.form-card select:focus {
+    border-color: #f8b400;
+    outline: none;
+}
+
+/* ===== TABLE STYLES ===== */
 .keranjang-box table th, 
 .keranjang-box table td {
-  color: #222;
-  background: rgba(255,255,255,0.85);
+    color: #5a3921;
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #e0d6c2;
 }
 
+/* ===== PDF BUTTON ===== */
+.btn-pdf {
+    background: #f8b400;
+    color: #5a3921;
+}
+
+.btn-pdf:hover {
+    background: #e6a300;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px;
+        margin-top: 80px;
+    }
+    
+    .hero-text h1 {
+        font-size: 32px;
+    }
+    
+    .hero-image {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .navbar {
+        padding: 0 20px;
+    }
+    
+    .navbar ul {
+        gap: 10px;
+    }
+    
+    .product-grid {
+        gap: 20px;
+        padding: 10px;
+    }
+    
+    .card {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .footer-content {
+        padding: 0 20px;
+    }
+}
+
+/* Atur konten supaya tidak ketiban navbar */
+body {
+    padding-top: 90px !important;
+}
+
+/* Page scroll wrapper */
+.page-scroll {
+    flex: 1;
+}

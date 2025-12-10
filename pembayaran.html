@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="img/logo.jpg" type="image/jpeg">
+    <link rel="shortcut icon" href="img/logo.jpg" type="image/jpeg">
+
+    <title>Checkout Pembayaran - KolakKita</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* CHECKOUT CONTAINER */
+        .checkout-container {
+            max-width: 1000px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        /* ORDER SUMMARY SIDEBAR */
+        .order-summary-sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .summary-title {
+            color: #5a3921;
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f8b400;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .summary-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0d6c2;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: 500;
+            color: #5a3921;
+        }
+
+        .item-qty {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .item-price {
+            font-weight: 600;
+            color: #5a3921;
+        }
+
+        .summary-total {
+            background: rgba(248, 180, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+
+        .grand-total {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff6b00;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #f8b400;
+        }
+
+        /* CHECKOUT FORM */
+        .checkout-form-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .checkout-title {
+            color: #5a3921;
+            font-size: 28px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkout-subtitle {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #5a3921;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0d6c2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #5a3921;
+        }
+
+        .form-label.required::after {
+            content: " *";
+            color: #ff4444;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0d6c2;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            transition: border 0.3s;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: #f8b400;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(248, 180, 0, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* PAYMENT METHODS */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .payment-option {
+            border: 2px solid #e0d6c2;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .payment-option:hover {
+            border-color: #f8b400;
+            transform: translateY(-3px);
+        }
+
+        .payment-option.selected {
+            border-color: #f8b400;
+            background: rgba(248, 180, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(248, 180, 0, 0.2);
+        }
+
+        .payment-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #5a3921;
+        }
+
+        .payment-name {
+            font-weight: 600;
+            color: #5a3921;
+            margin-bottom: 5px;
+        }
+
+        .payment-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* ORDER NOTES */
+        .order-notes {
+            background: rgba(248, 180, 0, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #f8b400;
+            margin-top: 25px;
+        }
+
+        .notes-title {
+            font-weight: 600;
+            color: #5a3921;
+            margin-bottom: 8px;
+        }
+
+        .notes-content {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* SUBMIT BUTTON */
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #f8b400, #ff6b00);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 25px;
+            box-shadow: 0 5px 15px rgba(248, 180, 0, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(248, 180, 0, 0.4);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* SUCCESS MESSAGE */
+        .success-message {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .success-title {
+            color: #5a3921;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .success-details {
+            background: rgba(76, 175, 80, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        /* INSTANT ORDER BADGE */
+        .instant-badge {
+            background: linear-gradient(135deg, #ff6b00, #ff4444);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 10px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr;
+                margin: 80px auto 30px;
+                padding: 0 15px;
+            }
+            
+            .order-summary-sidebar {
+                position: static;
+                order: 2;
+            }
+            
+            .checkout-form-box {
+                order: 1;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* LOADING OVERLAY */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #e0d6c2;
+            border-top: 5px solid #f8b400;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* BUTTON STYLES */
+        .btn-continue {
+            background: #e0d6c2;
+            color: #5a3921;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-continue:hover {
+            background: #d0c6b2;
+            transform: translateY(-2px);
+        }
+
+        .btn-checkout {
+            background: linear-gradient(135deg, #f8b400, #ff6b00);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(248, 180, 0, 0.3);
+        }
+
+        .btn-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(248, 180, 0, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- panggil navbar -->
+<iframe src="navbar.html" class="navframe" scrolling="no"></iframe>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <p>Memproses pesanan Anda...</p>
+</div>
+
+<div class="checkout-container" id="checkoutContainer">
+    <!-- Left Column: Checkout Form -->
+    <div class="checkout-form-box">
+        <h1 class="checkout-title"><i class="fa-solid fa-credit-card"></i> Checkout Pembayaran</h1>
+        <p class="checkout-subtitle">Lengkapi data berikut untuk menyelesaikan pemesanan</p>
+        
+        <!-- Instant Order Notice -->
+        <div id="instantNotice" style="display: none;">
+            <div style="background: rgba(255, 107, 0, 0.1); padding: 15px; border-radius: 10px; border-left: 4px solid #ff6b00; margin-bottom: 20px;">
+                <p style="margin: 0; color: #ff6b00; font-weight: bold;">
+                    <i class="fa-solid fa-bolt"></i> PESANAN INSTANT: Anda melakukan checkout langsung dari menu
+                </p>
+            </div>
+        </div>
+        
+        <!-- Customer Information -->
+        <div class="form-section">
+            <h3 class="section-title"><i class="fa-solid fa-user"></i> Informasi Pelanggan</h3>
+            
+            <div class="form-group">
+                <label class="form-label required">Nama Lengkap</label>
+                <input type="text" class="form-input" id="customerName" placeholder="Masukkan nama lengkap" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label required">No. WhatsApp</label>
+                <input type="tel" class="form-input" id="customerPhone" placeholder="Contoh: 081234567890" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label required">Email</label>
+                <input type="email" class="form-input" id="customerEmail" placeholder="nama@email.com" required>
+            </div>
+        </div>
+        
+        <!-- Delivery Information -->
+        <div class="form-section">
+            <h3 class="section-title"><i class="fa-solid fa-truck"></i> Informasi Pengiriman</h3>
+            
+            <div class="form-group">
+                <label class="form-label required">Alamat Lengkap</label>
+                <textarea class="form-textarea" id="customerAddress" placeholder="Jl. Nama Jalan No. X, RT/RW, Kelurahan, Kecamatan, Kota" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Catatan untuk Kurir (Opsional)</label>
+                <textarea class="form-textarea" id="deliveryNotes" placeholder="Contoh: Rumah warna biru, dekat warung, dll."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label required">Waktu Pengiriman</label>
+                <select class="form-select" id="deliveryTime" required>
+                    <option value="">Pilih waktu pengiriman</option>
+                    <option value="09:00-12:00">Pagi (09:00 - 12:00)</option>
+                    <option value="12:00-15:00">Siang (12:00 - 15:00)</option>
+                    <option value="15:00-18:00">Sore (15:00 - 18:00)</option>
+                    <option value="18:00-21:00">Malam (18:00 - 21:00)</option>
+                    <option value="asap">SEGERA (Setelah pesanan diproses)</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Payment Method -->
+        <div class="form-section">
+            <h3 class="section-title"><i class="fa-solid fa-wallet"></i> Metode Pembayaran</h3>
+            
+            <div class="payment-methods" id="paymentMethods">
+                <div class="payment-option" data-method="COD">
+                    <div class="payment-icon">💵</div>
+                    <div class="payment-name">COD</div>
+                    <div class="payment-desc">Bayar saat terima</div>
+                </div>
+                
+                <div class="payment-option" data-method="TRANSFER">
+                    <div class="payment-icon"><i class="fa-solid fa-building-columns"></i></div>
+                    <div class="payment-name">Transfer Bank</div>
+                    <div class="payment-desc">BCA, BRI, Mandiri</div>
+                </div>
+                
+                <div class="payment-option" data-method="QRIS">
+                    <div class="payment-icon"><i class="fa-solid fa-qrcode"></i></div>
+                    <div class="payment-name">QRIS</div>
+                    <div class="payment-desc">Semua e-wallet</div>
+                </div>
+                
+                <div class="payment-option" data-method="DANA">
+                    <div class="payment-icon">💜</div>
+                    <div class="payment-name">DANA</div>
+                    <div class="payment-desc">DANA App</div>
+                </div>
+            </div>
+            
+            <input type="hidden" id="selectedPayment" required>
+        </div>
+        
+        <!-- Order Notes -->
+        <div class="order-notes">
+            <div class="notes-title"><i class="fa-solid fa-circle-info"></i> Informasi Penting</div>
+            <div class="notes-content">
+                • Pesanan akan diproses dalam 15-30 menit<br>
+                • Untuk pembayaran transfer, konfirmasi ke WA: 0852-7070-1926<br>
+                • Gratis ongkir untuk pesanan minimal Rp 50.000<br>
+                • Pengiriman area tertentu mungkin dikenakan tambahan ongkir
+            </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="button" class="btn-submit" id="submitOrder">
+            <i class="fa-solid fa-paper-plane"></i> Konfirmasi Pesanan
+        </button>
+    </div>
+    
+    <!-- Right Column: Order Summary -->
+    <div class="order-summary-sidebar" id="orderSummary">
+        <h3 class="summary-title"><i class="fa-solid fa-receipt"></i> Ringkasan Pesanan</h3>
+        
+        <!-- Instant Badge -->
+        <div id="instantBadge" style="display: none;">
+            <span class="instant-badge">
+                <i class="fa-solid fa-bolt"></i> Instant Order
+            </span>
+        </div>
+        
+        <!-- Order Items -->
+        <div class="summary-items" id="orderItemsList">
+            <!-- Items will be populated by JavaScript -->
+        </div>
+        
+        <!-- Order Totals -->
+        <div class="summary-total">
+            <div class="total-row">
+                <span>Subtotal</span>
+                <span id="summarySubtotal">Rp 0</span>
+            </div>
+            <div class="total-row">
+                <span>Ongkos Kirim</span>
+                <span id="summaryShipping">Gratis</span>
+            </div>
+            <div class="total-row">
+                <span>Diskon</span>
+                <span id="summaryDiscount">Rp 0</span>
+            </div>
+            <div class="total-row grand-total">
+                <span>Total Pembayaran</span>
+                <span id="summaryTotal">Rp 0</span>
+            </div>
+        </div>
+        
+        <!-- Order Details -->
+        <div style="margin-top: 20px; font-size: 14px; color: #666;">
+            <p><i class="fa-solid fa-store" style="color: #f8b400;"></i> <strong>KolakKita</strong></p>
+            <p><i class="fa-solid fa-clock" style="color: #f8b400;"></i> Proses: 15-30 menit</p>
+            <p><i class="fa-solid fa-truck" style="color: #f8b400;"></i> Pengiriman: Same Day</p>
+        </div>
+    </div>
+</div>
+
+<!-- Success Message (Hidden by default) -->
+<div class="checkout-container" id="successMessage" style="display: none;">
+    <div class="checkout-form-box success-message">
+        <div class="success-icon">✅</div>
+        <h2 class="success-title">Pesanan Berhasil Diproses!</h2>
+        <p>Terima kasih telah memesan di KolakKita. Pesanan Anda akan segera kami proses.</p>
+        
+        <div class="success-details" id="orderDetails">
+            <!-- Order details will be populated here -->
+        </div>
+        
+        <p>Nomor pesanan: <strong id="orderNumber">KK-2025-0001</strong></p>
+        <p>Kami akan mengirimkan konfirmasi ke WhatsApp Anda.</p>
+        
+        <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center;">
+            <a href="index.html" class="btn-continue">
+                <i class="fa-solid fa-home"></i> Kembali ke Home
+            </a>
+            <a href="produk.html" class="btn-checkout">
+                <i class="fa-solid fa-utensils"></i> Pesan Lagi
+            </a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>KolakKita</h3>
+            <p>"Semangkuk Manis untuk Hari yang Lebih Baik."</p>
+            <p><i class="fa-solid fa-location-dot"></i> Kampung Banjar 1, Kotapinang</p>
+            <p style="margin-left: 28px; margin-top: -10px; color: rgba(255,255,255,0.9); font-size: 14px;">
+                Desa Kotapinang, Kec. Kotapinang<br>
+                Kab. Labuhanbatu Selatan, Sumatera Utara
+            </p>
+            <p><i class="fa-solid fa-phone"></i> 0852-7070-1926</p>
+            <p><i class="fa-solid fa-envelope"></i> eskoldingkolakdingin@gmail.com</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Jam Operasional</h3>
+            <p><i class="fa-solid fa-clock"></i> Senin - Minggu: 09:00 - 21:00 WIB</p>
+            <p><i class="fa-solid fa-calendar-day"></i> Hari Libur: Tetap Buka</p>
+            <p><i class="fa-solid fa-truck"></i> Gratis Ongkir min. Rp 50.000</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Lokasi Kami</h3>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.3925794567667!2d99.652123!3d1.798146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3027c9b8e6a5b5a5%3A0x2e0b9c7b8b5b5b5b!2sSimpang%20Kampung%20Banjar%201%2C%20Kotapinang%2C%20Labuhan%20Batu%20Selatan%2C%20Sumatera%20Utara!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                    width="100%" 
+                    height="150" 
+                    style="border:0; border-radius:8px;"
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                <p style="margin-top: 10px; font-size: 14px;">
+                    <a href="https://maps.app.goo.gl/V6rRut9iKuwFHKV58" target="_blank" 
+                       style="color: #f8b400; text-decoration: none;">
+                        <i class="fa-solid fa-map-pin"></i> Buka di Google Maps
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>© 2025 <strong>KolakKita</strong>. All Rights Reserved. | Made with <i class="fa-solid fa-heart" style="color:#f8b400;"></i> for Kolak Lovers</p>
+    </div>
+</footer>
+
+<script>
+    // DOM Elements
+    const checkoutContainer = document.getElementById('checkoutContainer');
+    const successMessage = document.getElementById('successMessage');
+    const orderItemsList = document.getElementById('orderItemsList');
+    const orderSummary = document.getElementById('orderSummary');
+    const submitButton = document.getElementById('submitOrder');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const instantNotice = document.getElementById('instantNotice');
+    const instantBadge = document.getElementById('instantBadge');
+    
+    // Payment method selection
+    const paymentOptions = document.querySelectorAll('.payment-option');
+    const selectedPaymentInput = document.getElementById('selectedPayment');
+    
+    paymentOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Remove selected class from all options
+            paymentOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add selected class to clicked option
+            this.classList.add('selected');
+            
+            // Update hidden input
+            selectedPaymentInput.value = this.dataset.method;
+        });
+    });
+    
+    // Load order from localStorage
+    function loadOrderSummary() {
+        const orderSummaryData = JSON.parse(localStorage.getItem('kolakkita_order')) || {};
+        const orderItems = orderSummaryData.items || [];
+        
+        if (orderItems.length === 0) {
+            // No items in order, redirect to menu
+            alert('Tidak ada pesanan. Silahkan pilih menu terlebih dahulu.');
+            window.location.href = 'produk.html';
+            return;
+        }
+        
+        // Show instant notice if it's an instant order
+        if (orderSummaryData.isInstant) {
+            instantNotice.style.display = 'block';
+            instantBadge.style.display = 'inline-block';
+        }
+        
+        // Display order items
+        let itemsHTML = '';
+        orderItems.forEach(item => {
+            itemsHTML += `
+                <div class="summary-item">
+                    <div>
+                        <div class="item-name">${item.nama}</div>
+                        <div class="item-qty">${item.quantity} x Rp ${item.harga.toLocaleString()}</div>
+                    </div>
+                    <div class="item-price">Rp ${(item.harga * item.quantity).toLocaleString()}</div>
+                </div>
+            `;
+        });
+        
+        orderItemsList.innerHTML = itemsHTML;
+        
+        // Update totals
+        document.getElementById('summarySubtotal').textContent = `Rp ${orderSummaryData.subtotal?.toLocaleString() || 0}`;
+        document.getElementById('summaryShipping').textContent = orderSummaryData.shipping === 0 ? 'Gratis' : `Rp ${orderSummaryData.shipping?.toLocaleString() || 0}`;
+        document.getElementById('summaryDiscount').textContent = orderSummaryData.discount === 0 ? 'Rp 0' : `-Rp ${orderSummaryData.discount?.toLocaleString() || 0}`;
+        document.getElementById('summaryTotal').textContent = `Rp ${orderSummaryData.total?.toLocaleString() || 0}`;
+    }
+    
+    // Generate order number
+    function generateOrderNumber() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+        
+        return `KK-${year}${month}${day}-${random}`;
+    }
+    
+    // Validate form
+    function validateForm() {
+        const name = document.getElementById('customerName').value.trim();
+        const phone = document.getElementById('customerPhone').value.trim();
+        const email = document.getElementById('customerEmail').value.trim();
+        const address = document.getElementById('customerAddress').value.trim();
+        const deliveryTime = document.getElementById('deliveryTime').value;
+        const paymentMethod = selectedPaymentInput.value;
+        
+        if (!name) {
+            alert('Harap masukkan nama lengkap.');
+            return false;
+        }
+        
+        if (!phone || phone.length < 10) {
+            alert('Harap masukkan nomor WhatsApp yang valid.');
+            return false;
+        }
+        
+        if (!email || !email.includes('@')) {
+            alert('Harap masukkan email yang valid.');
+            return false;
+        }
+        
+        if (!address) {
+            alert('Harap masukkan alamat lengkap.');
+            return false;
+        }
+        
+        if (!deliveryTime) {
+            alert('Harap pilih waktu pengiriman.');
+            return false;
+        }
+        
+        if (!paymentMethod) {
+            alert('Harap pilih metode pembayaran.');
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // Send WhatsApp notification
+    function sendWhatsAppNotification(orderData) {
+        const orderSummary = orderData.orderSummary;
+        const itemsText = orderSummary.items.map(item => 
+            `• ${item.nama} (${item.quantity}x) = Rp ${(item.harga * item.quantity).toLocaleString()}`
+        ).join('\n');
+        
+        const message = `*PESANAN BARU KOLAKKITA*\n\n` +
+                       `*No. Pesanan:* ${orderData.orderNumber}\n` +
+                       `*Nama:* ${orderData.customer.name}\n` +
+                       `*No. WhatsApp:* ${orderData.customer.phone}\n` +
+                       `*Email:* ${orderData.customer.email}\n` +
+                       `*Alamat:* ${orderData.customer.address}\n` +
+                       (orderData.customer.notes ? `*Catatan:* ${orderData.customer.notes}\n` : '') +
+                       `*Waktu Kirim:* ${orderData.delivery.time}\n` +
+                       `*Metode Bayar:* ${orderData.payment.method}\n\n` +
+                       `*DETAIL PESANAN:*\n${itemsText}\n\n` +
+                       `*Subtotal:* Rp ${orderSummary.subtotal.toLocaleString()}\n` +
+                       `*Ongkir:* ${orderSummary.shipping === 0 ? 'Gratis' : `Rp ${orderSummary.shipping.toLocaleString()}`}\n` +
+                       `*Diskon:* ${orderSummary.discount === 0 ? 'Rp 0' : `-Rp ${orderSummary.discount.toLocaleString()}`}\n` +
+                       `*TOTAL:* Rp ${orderSummary.total.toLocaleString()}\n\n` +
+                       `*Status:* ${orderData.status}`;
+        
+        // Encode message for URL
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/6285270701926?text=${encodedMessage}`;
+        
+        // Open WhatsApp in new tab (for demo)
+        // window.open(whatsappUrl, '_blank');
+        
+        console.log('WhatsApp Notification URL:', whatsappUrl);
+        return whatsappUrl;
+    }
+    
+    // Process order
+    function processOrder() {
+        if (!validateForm()) {
+            return;
+        }
+        
+        // Show loading
+        loadingOverlay.style.display = 'flex';
+        submitButton.disabled = true;
+        
+        // Get form data
+        const orderData = {
+            orderNumber: generateOrderNumber(),
+            customer: {
+                name: document.getElementById('customerName').value.trim(),
+                phone: document.getElementById('customerPhone').value.trim(),
+                email: document.getElementById('customerEmail').value.trim(),
+                address: document.getElementById('customerAddress').value.trim(),
+                notes: document.getElementById('deliveryNotes').value.trim()
+            },
+            delivery: {
+                time: document.getElementById('deliveryTime').value,
+                notes: document.getElementById('deliveryNotes').value.trim()
+            },
+            payment: {
+                method: selectedPaymentInput.value,
+                status: 'pending'
+            },
+            orderSummary: JSON.parse(localStorage.getItem('kolakkita_order')),
+            timestamp: new Date().toISOString(),
+            status: 'processing'
+        };
+        
+        // Save order to localStorage
+        const allOrders = JSON.parse(localStorage.getItem('kolakkita_all_orders')) || [];
+        allOrders.push(orderData);
+        localStorage.setItem('kolakkita_all_orders', JSON.stringify(allOrders));
+        
+        // Save current order for confirmation page
+        localStorage.setItem('kolakkita_current_order', JSON.stringify(orderData));
+        
+        // Clear cart after successful order
+        localStorage.removeItem('kolakkita_cart');
+        localStorage.removeItem('kolakkita_order'); // Clear instant order
+        
+        // Update navbar cart count
+        if (window.parent && window.parent.updateCartCount) {
+            window.parent.updateCartCount(0);
+        }
+        
+        // Create WhatsApp notification
+        const whatsappUrl = sendWhatsAppNotification(orderData);
+        
+        // Simulate API call delay
+        setTimeout(() => {
+            // Hide loading
+            loadingOverlay.style.display = 'none';
+            
+            // Show success message
+            checkoutContainer.style.display = 'none';
+            successMessage.style.display = 'block';
+            
+            // Update order details
+            document.getElementById('orderNumber').textContent = orderData.orderNumber;
+            
+            const orderDetailsHTML = `
+                <p><strong>Nama:</strong> ${orderData.customer.name}</p>
+                <p><strong>No. WhatsApp:</strong> ${orderData.customer.phone}</p>
+                <p><strong>Alamat:</strong> ${orderData.customer.address}</p>
+                <p><strong>Waktu Pengiriman:</strong> ${orderData.delivery.time}</p>
+                <p><strong>Metode Pembayaran:</strong> ${orderData.payment.method}</p>
+                <p><strong>Total Pembayaran:</strong> Rp ${orderData.orderSummary.total.toLocaleString()}</p>
+                <div style="margin-top: 15px; padding: 10px; background: rgba(76, 175, 80, 0.1); border-radius: 8px;">
+                    <p style="margin: 0; font-size: 14px;">
+                        <i class="fa-solid fa-whatsapp" style="color: #25D366;"></i> 
+                        Konfirmasi pesanan akan dikirim ke WhatsApp Anda.
+                    </p>
+                </div>
+            `;
+            
+            document.getElementById('orderDetails').innerHTML = orderDetailsHTML;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Optional: Auto-open WhatsApp after 3 seconds
+            setTimeout(() => {
+                if (confirm('Buka WhatsApp untuk konfirmasi pesanan?')) {
+                    window.open(whatsappUrl, '_blank');
+                }
+            }, 3000);
+            
+        }, 2000); // 2 second delay to simulate processing
+    }
+    
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        loadOrderSummary();
+        
+        // Set default payment method
+        if (paymentOptions.length > 0) {
+            paymentOptions[0].click();
+        }
+        
+        // Form submission
+        submitButton.addEventListener('click', processOrder);
+        
+        // Auto-format phone number
+        const phoneInput = document.getElementById('customerPhone');
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.startsWith('0')) {
+                value = '62' + value.substring(1);
+            }
+            e.target.value = value;
+        });
+    });
+    
+    // Prevent form submission on Enter
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.type !== 'textarea') {
+            e.preventDefault();
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,22 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<link rel="stylesheet" href="css/style.css">
-
-<!-- FONT AWESOME ICON -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- FONT AWESOME ICON -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Additional navbar styles */
+        .logo-kolak {
+            font-family: 'Dancing Script', cursive;
+            font-size: 32px;
+            color: #f8b400;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .logo-kolak:hover {
+            color: #e6a300;
+        }
+        
+        .logo-kolak i {
+            color: #ff6b00;
+            font-size: 28px;
+        }
+        
+        .cart-count {
+            background: #ff6b00;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
+            vertical-align: top;
+        }
+        
+        .nav-promo {
+            background: linear-gradient(135deg, #ff6b00, #f8b400);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .logo-kolak {
+                font-size: 24px;
+            }
+            
+            .nav-promo {
+                display: none;
+            }
+            
+            .navbar ul {
+                gap: 10px;
+            }
+            
+            .navbar a {
+                font-size: 14px;
+                padding: 6px 8px;
+            }
+            
+            .navbar li:last-child {
+                display: none; /* Sembunyikan "Pesan" di mobile untuk simplicity */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-kolak {
+                font-size: 20px;
+            }
+            
+            .navbar ul {
+                gap: 5px;
+            }
+            
+            .navbar a {
+                font-size: 12px;
+                padding: 4px 6px;
+            }
+            
+            .navbar a i {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 <header>
   <nav class="navbar">
-    <h2 class="logo">
-      <i class="fa-solid fa-shop"></i> MINIMAKER BLOCKS
-    </h2>
+    <a href="index.html" class="logo-kolak">
+      <i class="fa-solid fa-bowl-food"></i>
+      KolakKita
+      <span class="nav-promo">Rp 8K</span>
+    </a>
 
     <ul>
-
       <li>
         <a href="index.html" target="_parent">
           <i class="fa-solid fa-house"></i> Home
@@ -25,7 +127,14 @@
 
       <li>
         <a href="produk.html" target="_parent">
-          <i class="fa-solid fa-box"></i> Produk
+          <i class="fa-solid fa-bowl-rice"></i> Menu
+        </a>
+      </li>
+
+      <li>
+        <a href="pesanan.html" target="_parent">
+          <i class="fa-solid fa-list-check"></i> Pesanan
+          <span class="cart-count" id="cartCount">0</span>
         </a>
       </li>
 
@@ -41,22 +150,98 @@
         </a>
       </li>
 
-      <!-- LINKTREE -->
+      <!-- 
       <li>
-        <a href="linktree.html" target="_blank">
-          <i class="fa-solid fa-link"></i> Linktree
+        <a href="pembayaran.html" target="_parent">
+          <i class="fa-solid fa-truck-fast"></i> Pesan
         </a>
       </li>
-
-      <!-- KERANJANG -->
-      <li>
-        <a href="keranjang.html" target="_parent">
-          <i class="fa-solid fa-cart-shopping"></i> Keranjang
-        </a>
-      </li>
-
+      -->
+      
     </ul>
   </nav>
 </header>
+
+<script>
+    // Cart counter system
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartDisplay();
+        
+        // Listen for storage events (when cart is updated from other tabs/windows)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'kolakkita_cart_count' || e.key === 'kolakkita_cart') {
+                updateCartDisplay();
+            }
+        });
+        
+        // Auto-update cart count every 2 seconds (for real-time updates)
+        setInterval(updateCartDisplay, 2000);
+    });
+    
+    // Function to update cart display
+    function updateCartDisplay() {
+        try {
+            // Get cart from localStorage
+            const cart = JSON.parse(localStorage.getItem('kolakkita_cart')) || [];
+            
+            // Calculate total items
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Update cart count
+            const cartCountElement = document.getElementById('cartCount');
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+                
+                // Add animation if items added
+                if (totalItems > 0 && parseInt(cartCountElement.dataset.lastCount || 0) < totalItems) {
+                    cartCountElement.style.animation = 'none';
+                    setTimeout(() => {
+                        cartCountElement.style.animation = 'pulse 0.5s';
+                    }, 10);
+                }
+                
+                // Store last count
+                cartCountElement.dataset.lastCount = totalItems;
+            }
+            
+            // Save to localStorage for persistence
+            localStorage.setItem('kolakkita_cart_count', totalItems);
+            
+            // Make function available to iframes/parent windows
+            if (window.updateCartCount) {
+                window.updateCartCount(totalItems);
+            }
+            
+            // Update parent window if in iframe
+            if (window.parent && window.parent.updateCartCount) {
+                window.parent.updateCartCount(totalItems);
+            }
+            
+        } catch (error) {
+            console.error('Error updating cart display:', error);
+            document.getElementById('cartCount').textContent = '0';
+        }
+    }
+    
+    // Function to manually update cart count (called from product pages)
+    window.updateCartCount = function(count) {
+        localStorage.setItem('kolakkita_cart_count', count);
+        const cartCountElement = document.getElementById('cartCount');
+        if (cartCountElement) {
+            cartCountElement.textContent = count;
+        }
+    };
+    
+    // Function to clear cart (for testing)
+    window.clearCart = function() {
+        if (confirm('Yakin ingin mengosongkan keranjang?')) {
+            localStorage.removeItem('kolakkita_cart');
+            localStorage.removeItem('kolakkita_cart_count');
+            updateCartDisplay();
+            alert('Keranjang telah dikosongkan.');
+        }
+    };
+</script>
+
 </body>
 </html>

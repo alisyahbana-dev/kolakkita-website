@@ -1,80 +1,672 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <!-- Favicon -->
     <link rel="icon" href="img/logo.jpg" type="image/jpeg">
     <link rel="shortcut icon" href="img/logo.jpg" type="image/jpeg">
 
-    <title>MINIMAKER BLOCKS</title>
+    <title>Menu KolakKita - 16 Pilihan Kolak Tradisional</title>
     <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* Additional styles for product page */
+        .page-header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.9), rgba(210, 105, 30, 0.9));
+            margin: 100px auto 30px;
+            width: 90%;
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .page-header h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .page-tagline {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+        
+        .price-highlight {
+            background: #f8b400;
+            color: #5a3921;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 20px;
+            display: inline-block;
+            margin: 10px 0;
+            box-shadow: 0 3px 10px rgba(248, 180, 0, 0.3);
+        }
+        
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-bottom: 60px;
+        }
+        
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            width: 280px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 3px solid #f8b400;
+        }
+        
+        .product-content {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 20px;
+            color: #5a3921;
+            margin: 0 0 10px;
+            font-weight: 600;
+        }
+        
+        .product-price {
+            color: #f8b400;
+            font-size: 22px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .product-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            margin: 10px 0 15px;
+            height: 60px;
+            overflow: hidden;
+        }
+        
+        .product-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        
+        .product-tag {
+            background: rgba(248, 180, 0, 0.1);
+            color: #f8b400;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid rgba(248, 180, 0, 0.3);
+        }
+        
+        .product-tag.hot {
+            background: rgba(255, 107, 0, 0.2);
+            color: #ff6b00;
+            border-color: rgba(255, 107, 0, 0.3);
+        }
+        
+        .product-tag.cold {
+            background: rgba(0, 150, 255, 0.1);
+            color: #0096ff;
+            border-color: rgba(0, 150, 255, 0.3);
+        }
+        
+        /* BUTTON STYLES */
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn-instant {
+            flex: 1;
+            background: linear-gradient(135deg, #ff6b00, #ff4444);
+            color: white;
+            border: none;
+            padding: 12px 8px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            min-height: 44px;
+        }
+        
+        .btn-instant:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 0, 0.3);
+            background: linear-gradient(135deg, #ff5500, #ff3333);
+        }
+        
+        .btn-add {
+            flex: 1;
+            background: #f8b400;
+            color: #5a3921;
+            border: none;
+            padding: 12px 8px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            min-height: 44px;
+        }
+        
+        .btn-add:hover {
+            background: #e6a300;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(248, 180, 0, 0.3);
+        }
+        
+        .btn-icon {
+            font-size: 16px;
+        }
+        
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #f8b400;
+            border-radius: 25px;
+            color: #5a3921;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: #f8b400;
+            color: white;
+        }
+        
+        /* Quick Order Info */
+        .quick-order-info {
+            background: rgba(255, 107, 0, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            border-left: 4px solid #ff6b00;
+        }
+        
+        .info-title {
+            color: #ff6b00;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .info-desc {
+            color: #666;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header {
+                width: 95%;
+                margin: 80px auto 20px;
+                padding: 15px;
+            }
+            
+            .page-header h1 {
+                font-size: 28px;
+            }
+            
+            .product-container {
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .product-card {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .btn-instant, .btn-add {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .btn-instant, .btn-add {
+                font-size: 13px;
+                padding: 10px 5px;
+            }
+            
+            .btn-icon {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
 <!-- panggil navbar -->
 <iframe src="navbar.html" class="navframe" scrolling="no"></iframe>
 
-<h1 class="title">Produk Kami</h1>
-
-<div class="product-grid" style="flex-wrap:wrap; overflow-y:auto; max-height:80vh; padding-bottom:40px;">
-
-<script>
-  const produkList = [
-    {nama:"BLOCKS HURUF ", harga:25000, img:"img/g1.jpeg"},
-    {nama:"PEMADAM", harga:30000, img:"img/g2.jpeg"},
-    {nama:"CITY BLOCKS", harga:35000, img:"img/g3.jpeg"},
-    {nama:"FAMILY LEGO", harga:40000, img:"img/g4.jpeg"},
-    {nama:"SET LEGO", harga:25000, img:"img/g5.jpeg"},
-    {nama:"DISNEP", harga:30000, img:"img/g6.jpeg"},
-    {nama:"CAR LEGO", harga:35000, img:"img/g7.jpeg"},
-    {nama:"TRANSFORMES", harga:50000, img:"img/g8.jpeg"},
-    {nama:"BLOCKS HURUF ", harga:25000, img:"img/g1.jpeg"},
-    {nama:"PEMADAM", harga:30000, img:"img/g2.jpeg"},
-    {nama:"CITY BLOCKS", harga:35000, img:"img/g3.jpeg"},
-    {nama:"FAMILY LEGO", harga:40000, img:"img/g4.jpeg"},
-    {nama:"SET LEGO", harga:25000, img:"img/g5.jpeg"},
-    {nama:"DISNEP", harga:30000, img:"img/g6.jpeg"},
-    {nama:"CAR LEGO", harga:35000, img:"img/g7.jpeg"},
-    {nama:"TRANSFORMES", harga:50000, img:"img/g8.jpeg"},
-  ];
-
-  document.write(
-    produkList.map(p => `
-      <div class='card'>
-        <img src='${p.img}' />
-        <h3>${p.nama}</h3>
+<div class="page-header">
+    <h1><i class="fa-solid fa-bowl-food"></i> Menu Lengkap KolakKita</h1>
+    <p class="page-tagline">"Semangkuk Manis untuk Hari yang Lebih Baik."</p>
+    <div class="price-highlight">SEMUA MENU Rp 8.000</div>
+    <p>Pilih menu favorit Anda, tersedia hangat atau dingin</p>
     
-        <span class="price">Rp ${p.harga.toLocaleString()}</span><br>
-        <a class="btn-beli"
-           href="pembelian.html?produk=${encodeURIComponent(p.nama)}&harga=${p.harga}">
-          Masukkan Keranjang
-        </a>
-      </div>
-    `).join("")
-  );
-</script>
-
+    <!-- Quick Order Instructions -->
+    <div class="quick-order-info" style="max-width: 800px; margin: 20px auto 0;">
+        <div class="info-title"><i class="fa-solid fa-info-circle"></i> Cara Pesan:</div>
+        <div class="info-desc">
+            <strong>⚡ Pesan Sekarang:</strong> Langsung checkout 1 item | 
+            <strong>🛒 Tambah ke Pesanan:</strong> Kumpulkan beberapa item dulu, bayar nanti di halaman Pesanan Saya
+        </div>
+    </div>
 </div>
 
-<footer style="margin-top: 20px; background:#8BC34A; padding:15px 0; text-align:center; color:white;">
-  <p style="margin:0; font-weight:bold;">© 2025 MINIMAKER BLOCKS. All Rights Reserved.</p>
+<!-- Category Filter -->
+<div class="category-filter" id="categoryFilter">
+    <button class="filter-btn active" data-filter="all">Semua Menu</button>
+    <button class="filter-btn" data-filter="hot">Menu Hangat</button>
+    <button class="filter-btn" data-filter="cold">Menu Dingin</button>
+    <button class="filter-btn" data-filter="best">Best Seller</button>
+    <button class="filter-btn" data-filter="new">Menu Baru</button>
+</div>
 
-  <div style="margin-top:10px; display:flex; justify-content:center;">
-    <iframe 
-      src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7957.415815894786!2d100.361427!3d-0.865666!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2fd4b884f1bfad8f%3A0xdee4e74a07e6750d!2s59J7%2BJ75%2C%20Balai%20Gadang%2C%20Koto%20Tangah%2C%20Kota%20Padang%2C%20Sumatera%20Barat!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
-      width="320" 
-      height="150" 
-      style="border:0; border-radius:8px;"
-      allowfullscreen="" 
-      loading="lazy">
-    </iframe>
-  </div>
+<div class="product-container" id="productContainer">
+    <!-- Products will be generated by JavaScript -->
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>KolakKita</h3>
+            <p>"Semangkuk Manis untuk Hari yang Lebih Baik."</p>
+            <p><i class="fa-solid fa-location-dot"></i> Kampung Banjar 1, Kotapinang</p>
+            <p style="margin-left: 28px; margin-top: -10px; color: rgba(255,255,255,0.9); font-size: 14px;">
+                Desa Kotapinang, Kec. Kotapinang<br>
+                Kab. Labuhanbatu Selatan, Sumatera Utara
+            </p>
+            <p><i class="fa-solid fa-phone"></i> 0852-7070-1926</p>
+            <p><i class="fa-solid fa-envelope"></i> eskoldingkolakdingin@gmail.com</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Jam Operasional</h3>
+            <p><i class="fa-solid fa-clock"></i> Senin - Minggu: 09:00 - 21:00 WIB</p>
+            <p><i class="fa-solid fa-calendar-day"></i> Hari Libur: Tetap Buka</p>
+            <p><i class="fa-solid fa-truck"></i> Gratis Ongkir min. Rp 50.000</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Lokasi Kami</h3>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.3925794567667!2d99.652123!3d1.798146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3027c9b8e6a5b5a5%3A0x2e0b9c7b8b5b5b5b!2sSimpang%20Kampung%20Banjar%201%2C%20Kotapinang%2C%20Labuhan%20Batu%20Selatan%2C%20Sumatera%20Utara!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                    width="100%" 
+                    height="150" 
+                    style="border:0; border-radius:8px;"
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                <p style="margin-top: 10px; font-size: 14px;">
+                    <a href="https://maps.app.goo.gl/V6rRut9iKuwFHKV58" target="_blank" 
+                       style="color: #f8b400; text-decoration: none;">
+                        <i class="fa-solid fa-map-pin"></i> Buka di Google Maps
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>© 2025 <strong>KolakKita</strong>. All Rights Reserved. | Made with <i class="fa-solid fa-heart" style="color:#f8b400;"></i> for Kolak Lovers</p>
+    </div>
 </footer>
 
+<script>
+    // 16 Menu KolakKita
+    const produkList = [
+        {
+            id: 1,
+            nama: "Kolak Pisang Original",
+            harga: 8000,
+            img: "img/kolak-pisang.jpg",
+            desc: "Potongan pisang kepok manis dalam kuah santan gula merah yang hangat dan harum.",
+            tags: ["hot", "best", "tradisional"],
+            seo: "kolak pisang murah, kolak pisang enak"
+        },
+        {
+            id: 2,
+            nama: "Kolak Ubi Kuning",
+            harga: 8000,
+            img: "img/kolak-ubi-kuning.jpg",
+            desc: "Ubi kuning empuk dimasak dengan santan gurih dan gula aren khas rumahan.",
+            tags: ["hot", "tradisional"],
+            seo: "kolak ubi kuning lembut, kolak ubi santan"
+        },
+        {
+            id: 3,
+            nama: "Kolak Biji Salak",
+            harga: 8000,
+            img: "img/kolak-biji-salak.jpg",
+            desc: "Bola-bola ubi lembut disajikan dalam kuah gula merah yang kental dan wangi pandan.",
+            tags: ["hot", "new"],
+            seo: "kolak biji salak kenyal, resep kolak biji salak"
+        },
+        {
+            id: 4,
+            nama: "Kolak Labu Kuning",
+            harga: 8000,
+            img: "img/kolak-labu.jpg",
+            desc: "Labu kuning manis yang lumer berpadu dengan santan gurih khas dapur nusantara.",
+            tags: ["hot"],
+            seo: "kolak labu kuning creamy, kolak labu santan"
+        },
+        {
+            id: 5,
+            nama: "Kolak Pisang Ubi Mix",
+            harga: 8000,
+            img: "img/kolak-campur.jpg",
+            desc: "Kombinasi pisang dan ubi yang pas, cocok untuk pecinta kolak komplit.",
+            tags: ["hot", "best"],
+            seo: "kolak campur pisang ubi, kolak campur murah"
+        },
+        {
+            id: 6,
+            nama: "Kolak Durian",
+            harga: 8000,
+            img: "img/kolak-durian.jpg",
+            desc: "Aroma durian yang kuat berpadu dengan santan manis—favorit para pecinta durian.",
+            tags: ["hot"],
+            seo: "kolak durian creamy, kolak durian khas"
+        },
+        {
+            id: 7,
+            nama: "Kolak Candil",
+            harga: 8000,
+            img: "img/kolak-candil.jpg",
+            desc: "Candil kenyal lembut dengan kuah gula merah legit dan santan gurih.",
+            tags: ["hot"],
+            seo: "kolak candil kenyal, kolak candil gula merah"
+        },
+        {
+            id: 8,
+            nama: "Kolak Kolang-Kaling",
+            harga: 8000,
+            img: "img/kolak-kolang.jpg",
+            desc: "Kolang-kaling renyah dimasak dalam kuah santan manis yang ringan dan segar.",
+            tags: ["cold"],
+            seo: "kolak kolang kaling menyegarkan"
+        },
+        {
+            id: 9,
+            nama: "Kolak Campur Spesial",
+            harga: 8000,
+            img: "img/kolak-campur-spesial.jpg",
+            desc: "Isi lengkap: pisang, ubi, kolang-kaling, dan candil dalam satu mangkuk.",
+            tags: ["hot", "best"],
+            seo: "kolak campur lengkap, kolak campur spesial"
+        },
+        {
+            id: 10,
+            nama: "Kolak Singkong",
+            harga: 8000,
+            img: "img/kolak-singkong.jpg",
+            desc: "Singkong yang empuk dan legit dalam kuah santan tradisional.",
+            tags: ["hot"],
+            seo: "kolak singkong lembut"
+        },
+        {
+            id: 11,
+            nama: "Kolak Pisang Coklat",
+            harga: 8000,
+            img: "img/kolak-pisang-coklat.jpg",
+            desc: "Pisang manis berpadu dengan aroma coklat yang bikin kolak jadi lebih modern.",
+            tags: ["hot", "new"],
+            seo: "kolak pisang coklat unik"
+        },
+        {
+            id: 12,
+            nama: "Kolak Pisang Nangka",
+            harga: 8000,
+            img: "img/kolak-pisang-nangka.jpg",
+            desc: "Harum nangka yang khas bikin kolak pisang jadi makin menggoda.",
+            tags: ["hot"],
+            seo: "kolak pisang nangka wangi"
+        },
+        {
+            id: 13,
+            nama: "Kolak Ubi Ungu",
+            harga: 8000,
+            img: "img/kolak-ubi-ungu.jpg",
+            desc: "Ubi ungu lembut dengan kuah santan yang manis dan cantik secara visual.",
+            tags: ["hot", "new"],
+            seo: "kolak ubi ungu kekinian"
+        },
+        {
+            id: 14,
+            nama: "Kolak Sagu Mutiara",
+            harga: 8000,
+            img: "img/kolak-sagu.jpg",
+            desc: "Sagu mutiara kenyal yang berwarna cantik dalam kuah santan yang lembut.",
+            tags: ["cold", "new"],
+            seo: "kolak sagu mutiara pink, kolak kekinian"
+        },
+        {
+            id: 15,
+            nama: "Kolak Pisang Gula Aren",
+            harga: 8000,
+            img: "img/kolak-gula-aren.jpg",
+            desc: "Rasa pisang yang manis berpadu dengan wangi gula aren asli—lebih natural.",
+            tags: ["hot", "best"],
+            seo: "kolak pisang gula aren premium"
+        },
+        {
+            id: 16,
+            nama: "Kolak Rempah (Jahe & Pandan)",
+            harga: 8000,
+            img: "img/kolak-rempah.jpg",
+            desc: "Kolak ubi kuning dengan sentuhan jahe, pandan, dan kayu manis—hangat, wangi, dan menenangkan.",
+            tags: ["hot"],
+            seo: "kolak rempah hangat, kolak jahe santan"
+        }
+    ];
 
+    // Function to generate product cards
+    function generateProductCards(products) {
+        return products.map(p => {
+            return `
+                <div class="product-card" data-tags="${p.tags.join(' ')}">
+                    <img src="${p.img}" alt="${p.nama}" class="product-image">
+                    <div class="product-content">
+                        <h3 class="product-title">${p.nama}</h3>
+                        <div class="product-tags">
+                            ${p.tags.map(tag => {
+                                const label = tag === 'hot' ? 'Hangat' : 
+                                            tag === 'cold' ? 'Dingin' : 
+                                            tag === 'best' ? 'Best Seller' : 
+                                            tag === 'new' ? 'Baru' : 'Tradisional';
+                                const cls = tag === 'hot' ? 'product-tag' : 
+                                           tag === 'cold' ? 'product-tag cold' : 
+                                           tag === 'best' ? 'product-tag hot' : 'product-tag';
+                                return `<span class="${cls}">${label}</span>`;
+                            }).join('')}
+                        </div>
+                        <p class="product-desc">${p.desc}</p>
+                        <div class="product-price">Rp ${p.harga.toLocaleString()}</div>
+                        
+                        <div class="product-actions">
+                            <button class="btn-instant" onclick="instantCheckout(${p.id})">
+                                <i class="fa-solid fa-bolt btn-icon"></i> Pesan Sekarang
+                            </button>
+                            <button class="btn-add" onclick="addToCart(${p.id})">
+                                <i class="fa-solid fa-cart-plus btn-icon"></i> Tambah Pesanan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // Function to filter products
+    function filterProducts(filter) {
+        const products = document.querySelectorAll('.product-card');
+        products.forEach(product => {
+            if (filter === 'all' || product.dataset.tags.includes(filter)) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+        // Generate product cards
+        document.getElementById('productContainer').innerHTML = generateProductCards(produkList);
+        
+        // Set up filter buttons
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                // Filter products
+                filterProducts(this.dataset.filter);
+            });
+        });
+        
+        // Initialize cart count
+        updateCartDisplay();
+    });
+
+    // ========== INSTANT CHECKOUT FUNCTION ==========
+    function instantCheckout(productId) {
+        const product = produkList.find(p => p.id === productId);
+        
+        // Create instant order with 1 item
+        const instantOrder = {
+            items: [{
+                ...product,
+                quantity: 1
+            }],
+            subtotal: product.harga,
+            shipping: product.harga >= 50000 ? 0 : 10000,
+            discount: product.harga >= 100000 ? 10000 : 0,
+            total: product.harga + (product.harga >= 50000 ? 0 : 10000) - (product.harga >= 100000 ? 10000 : 0),
+            timestamp: new Date().toISOString(),
+            isInstant: true  // Flag to identify instant checkout
+        };
+        
+        // Save instant order to localStorage
+        localStorage.setItem('kolakkita_order', JSON.stringify(instantOrder));
+        
+        // Show confirmation message
+        const confirmation = confirm(`⚡ PESAN SEKARANG\n\nAnda akan langsung checkout:\n${product.nama}\nHarga: Rp ${product.harga.toLocaleString()}\n\nLanjutkan ke pembayaran?`);
+        
+        if (confirmation) {
+            // Redirect to payment page
+            window.location.href = 'pembayaran.html';
+        }
+    }
+
+    // ========== ADD TO CART FUNCTION ==========
+    function addToCart(productId) {
+        const product = produkList.find(p => p.id === productId);
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                ...product,
+                quantity: 1
+            });
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('kolakkita_cart', JSON.stringify(cart));
+        
+        // Update cart count in navbar
+        if (window.parent && window.parent.updateCartCount) {
+            window.parent.updateCartCount(cart.reduce((sum, item) => sum + item.quantity, 0));
+        }
+        
+        // Update local cart count
+        updateCartDisplay();
+        
+        // Show success notification
+        alert(`✅ ${product.nama} telah ditambahkan ke Pesanan Anda!\n\nAnda bisa:\n1. Tambah menu lain\n2. Lihat & atur pesanan di "Pesanan Saya"\n3. Lanjutkan ke pembayaran nanti`);
+    }
+    
+    function updateCartDisplay() {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        localStorage.setItem('kolakkita_cart_count', totalItems);
+        
+        // Update navbar cart count if in iframe
+        if (window.parent && window.parent.document.getElementById('cartCount')) {
+            window.parent.document.getElementById('cartCount').textContent = totalItems;
+        }
+    }
+
+    // Cart variable
+    let cart = JSON.parse(localStorage.getItem('kolakkita_cart')) || [];
+</script>
 
 </body>
 </html>

@@ -1,48 +1,746 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <!-- Favicon -->
     <link rel="icon" href="img/logo.jpg" type="image/jpeg">
     <link rel="shortcut icon" href="img/logo.jpg" type="image/jpeg">
-    <title>MINIMAKER BLOCKS</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
 
+    <title>Kontak Kami - KolakKita</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* CONTACT PAGE STYLES */
+        .contact-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            color: #5a3921;
+            font-size: 36px;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: #f8b400;
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* CONTACT GRID */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* CONTACT INFO CARD */
+        .contact-info-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .info-title {
+            color: #5a3921;
+            font-size: 24px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e0d6c2;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(248, 180, 0, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .info-icon i {
+            font-size: 20px;
+            color: #f8b400;
+        }
+
+        .info-content h4 {
+            color: #5a3921;
+            margin: 0 0 5px 0;
+            font-size: 18px;
+        }
+
+        .info-content p {
+            color: #666;
+            margin: 5px 0;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .info-link {
+            display: inline-block;
+            color: #f8b400;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 5px;
+            transition: color 0.3s;
+        }
+
+        .info-link:hover {
+            color: #e6a300;
+            text-decoration: underline;
+        }
+
+        /* SOCIAL MEDIA LINKS */
+        .social-media {
+            margin-top: 30px;
+        }
+
+        .social-title {
+            color: #5a3921;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .social-card {
+            background: white;
+            border: 2px solid #e0d6c2;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #5a3921;
+        }
+
+        .social-card:hover {
+            border-color: #f8b400;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(248, 180, 0, 0.1);
+        }
+
+        .social-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .social-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* CONTACT FORM */
+        .contact-form-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-title {
+            color: #5a3921;
+            font-size: 24px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #5a3921;
+        }
+
+        .form-label.required::after {
+            content: " *";
+            color: #ff4444;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0d6c2;
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            transition: border 0.3s;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: #f8b400;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(248, 180, 0, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #f8b400, #ff6b00);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(248, 180, 0, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(248, 180, 0, 0.4);
+        }
+
+        /* MAP SECTION */
+        .map-section {
+            margin-top: 60px;
+        }
+
+        .map-title {
+            color: #5a3921;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .map-container {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            height: 400px;
+        }
+
+        /* OPERATING HOURS */
+        .hours-card {
+            background: rgba(248, 180, 0, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 5px solid #f8b400;
+        }
+
+        .hours-title {
+            color: #5a3921;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hours-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(248, 180, 0, 0.3);
+        }
+
+        .hours-list li:last-child {
+            border-bottom: none;
+        }
+
+        .hours-list strong {
+            color: #5a3921;
+        }
+
+        /* FAQ SECTION */
+        .faq-section {
+            margin-top: 60px;
+        }
+
+        .faq-title {
+            color: #5a3921;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .faq-question {
+            color: #5a3921;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-answer {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* RESPONSIVE ADJUSTMENTS */
+        @media (max-width: 768px) {
+            .contact-container {
+                margin: 80px auto 30px;
+                padding: 0 15px;
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .contact-info-card,
+            .contact-form-card {
+                padding: 25px;
+            }
+            
+            .social-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .map-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
 
 <body>
 
+<!-- panggil navbar -->
 <iframe src="navbar.html" class="navframe" scrolling="no"></iframe>
 
-<div class="main-content">
-  <h1 class="title">Kontak Kami</h1>
+<div class="contact-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title"><i class="fa-solid fa-address-book"></i> Hubungi KolakKita</h1>
+        <p class="page-subtitle">"Ada pertanyaan tentang kolak kami? Ingin pesan catering untuk acara? Hubungi kami kapan saja!"</p>
+    </div>
 
-  <section class="content">
-    <p>Whatsapp: <b>089604248328</b></p>
-    <p>Email: <b>rikorezky44@gmail.com</b></p>
-    <p>Alamat: <b>Sungai Bangke, Koto Tangah, Balai Gadang, Sumatera Barat</b></p>
-  </section>
+    <!-- Contact Grid -->
+    <div class="contact-grid">
+        <!-- Contact Information -->
+        <div class="contact-info-card">
+            <h2 class="info-title"><i class="fa-solid fa-circle-info"></i> Informasi Kontak</h2>
+            
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div class="info-content">
+                    <h4>Alamat Toko</h4>
+                    <p>Simpang Kampung Banjar 1, Kotapinang</p>
+                    <p>Labuhan Batu Selatan, Sumatera Utara</p>
+                    <a href="https://maps.google.com/?q=Simpang+Kampung+Banjar+1+Kotapinang+Labuhan+Batu+Selatan" 
+                       target="_blank" class="info-link">
+                        <i class="fa-solid fa-map-location-dot"></i> Lihat di Google Maps
+                    </a>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+                <div class="info-content">
+                    <h4>Telepon/WhatsApp</h4>
+                    <p>0852-7070-1926</p>
+                    <a href="https://wa.me/6285270701926" target="_blank" class="info-link">
+                        <i class="fa-brands fa-whatsapp"></i> Chat via WhatsApp
+                    </a>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="info-content">
+                    <h4>Email</h4>
+                    <p>eskoldingkolakdingin@gmail.com</p>
+                    <a href="mailto:eskoldingkolakdingin@gmail.com" class="info-link">
+                        <i class="fa-solid fa-paper-plane"></i> Kirim Email
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Social Media -->
+            <div class="social-media">
+                <h3 class="social-title"><i class="fa-solid fa-hashtag"></i> Ikuti Kami</h3>
+                <div class="social-grid">
+                    <a href="https://www.youtube.com/@muhammadazmihsb161" target="_blank" class="social-card">
+                        <span class="social-icon" style="color: #FF0000;"><i class="fa-brands fa-youtube"></i></span>
+                        <span class="social-name">YouTube</span>
+                    </a>
+                    
+                    <a href="https://www.tiktok.com/@kolding71?_r=1&_t=ZS-92574lZ5MGd" target="_blank" class="social-card">
+                        <span class="social-icon" style="color: #000000;"><i class="fa-brands fa-tiktok"></i></span>
+                        <span class="social-name">TikTok</span>
+                    </a>
+                    
+                    <a href="https://www.facebook.com/share/1HCqP6YsvC/" target="_blank" class="social-card">
+                        <span class="social-icon" style="color: #1877F2;"><i class="fa-brands fa-facebook"></i></span>
+                        <span class="social-name">Facebook</span>
+                    </a>
+                    
+                    <a href="mailto:eskoldingkolakdingin@gmail.com" class="social-card">
+                        <span class="social-icon" style="color: #EA4335;"><i class="fa-solid fa-envelope"></i></span>
+                        <span class="social-name">Gmail</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
-  <!-- Tombol Pengaduan -->
-  <div style="text-align:center; margin-top:25px;">
-    <a href="pengaduan.html" class="btn-beli" 
-       style="padding:10px 25px; font-size:18px; text-decoration:none; display:inline-block;">
-      Ajukan Pengaduan
-    </a>
-  </div>
+        <!-- Contact Form -->
+        <div class="contact-form-card">
+            <h2 class="form-title"><i class="fa-solid fa-message"></i> Kirim Pesan</h2>
+            
+            <form id="contactForm">
+                <div class="form-group">
+                    <label class="form-label required">Nama Lengkap</label>
+                    <input type="text" class="form-input" id="contactName" placeholder="Masukkan nama Anda" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label required">Email</label>
+                    <input type="email" class="form-input" id="contactEmail" placeholder="nama@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label required">No. WhatsApp</label>
+                    <input type="tel" class="form-input" id="contactPhone" placeholder="08xxxxxxxxxx" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label required">Subjek</label>
+                    <select class="form-input" id="contactSubject" required>
+                        <option value="">Pilih subjek pesan</option>
+                        <option value="pesan">Pertanyaan tentang menu</option>
+                        <option value="catering">Pesan catering/event</option>
+                        <option value="keluhan">Keluhan/pengaduan</option>
+                        <option value="kerjasama">Penawaran kerjasama</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label required">Pesan Anda</label>
+                    <textarea class="form-textarea" id="contactMessage" 
+                              placeholder="Tulis pesan Anda di sini..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-paper-plane"></i> Kirim Pesan
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Operating Hours -->
+    <div class="hours-card">
+        <h3 class="hours-title"><i class="fa-solid fa-clock"></i> Jam Operasional</h3>
+        <ul class="hours-list">
+            <li>
+                <strong>Senin - Kamis:</strong>
+                <span>09:00 - 21:00 WIB</span>
+            </li>
+            <li>
+                <strong>Jumat:</strong>
+                <span>09:00 - 21:00 WIB</span>
+            </li>
+            <li>
+                <strong>Sabtu - Minggu:</strong>
+                <span>09:00 - 22:00 WIB</span>
+            </li>
+            <li>
+                <strong>Hari Libur Nasional:</strong>
+                <span>10:00 - 20:00 WIB</span>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-section">
+        <h2 class="map-title"><i class="fa-solid fa-map"></i> Lokasi Toko Kami</h2>
+        <div class="map-container">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.3925794567667!2d99.652123!3d1.798146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3027c9b8e6a5b5a5%3A0x2e0b9c7b8b5b5b5b!2sSimpang%20Kampung%20Banjar%201%2C%20Kotapinang%2C%20Labuhan%20Batu%20Selatan%2C%20Sumatera%20Utara!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <h2 class="faq-title"><i class="fa-solid fa-circle-question"></i> Pertanyaan yang Sering Ditanyakan</h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h3 class="faq-question"><i class="fa-solid fa-q"></i> Apakah menyediakan layanan pengiriman?</h3>
+                <p class="faq-answer">Ya, kami menyediakan layanan pengiriman untuk area Kotapinang dan sekitarnya. Gratis ongkir untuk pesanan minimal Rp 50.000.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3 class="faq-question"><i class="fa-solid fa-q"></i> Bisakah pesan untuk acara besar?</h3>
+                <p class="faq-answer">Tentu! Kami melayani catering untuk acara keluarga, arisan, pengajian, dan acara lainnya. Hubungi kami minimal 2 hari sebelumnya.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3 class="faq-question"><i class="fa-solid fa-q"></i> Apakah ada pilihan kolak dingin?</h3>
+                <p class="faq-answer">Ya, beberapa menu kami tersedia dalam versi dingin. Tandai menu "Dingin" di halaman produk atau sebutkan saat memesan.</p>
+            </div>
+            
+            <div class="faq-item">
+                <h3 class="faq-question"><i class="fa-solid fa-q"></i> Berapa lama proses pemesanan?</h3>
+                <p class="faq-answer">Pesanan standar diproses dalam 15-30 menit. Untuk pesanan besar (>20 porsi), mohon hubungi kami terlebih dahulu.</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer>
-  <p><b>© 2025 MINIMAKER BLOCKS. All Rights Reserved.</b></p>
-  <iframe 
-    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7957.415815894786!2d100.361427!3d-0.865666!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2fd4b884f1bfad8f%3A0xdee4e74a07e6750d!2s59J7%2BJ75%2C%20Balai%20Gadang%2C%20Koto%20Tangah%2C%20Kota%20Padang%2C%20Sumatera%20Barat!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
-    width="320"
-    height="160"
-    style="border:0;"
-    allowfullscreen=""
-    loading="lazy">
-  </iframe>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>KolakKita</h3>
+            <p>"Semangkuk Manis untuk Hari yang Lebih Baik."</p>
+            <p><i class="fa-solid fa-location-dot"></i> Simpang Kampung Banjar 1, Kotapinang</p>
+            <p><i class="fa-solid fa-phone"></i> 0852-7070-1926</p>
+            <p><i class="fa-solid fa-envelope"></i> eskoldingkolakdingin@gmail.com</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Jam Operasional</h3>
+            <p><i class="fa-solid fa-clock"></i> Senin - Minggu: 09:00 - 21:00 WIB</p>
+            <p><i class="fa-solid fa-calendar-day"></i> Hari Libur: Tetap Buka</p>
+            <p><i class="fa-solid fa-truck"></i> Gratis Ongkir min. Rp 50.000</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Ikuti Kami</h3>
+            <div style="display: flex; gap: 15px; margin-top: 15px;">
+                <a href="https://www.youtube.com/@muhammadazmihsb161" target="_blank" style="color: #FF0000; font-size: 20px;">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+                <a href="https://www.tiktok.com/@kolding71" target="_blank" style="color: #000000; font-size: 20px;">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+                <a href="https://www.facebook.com/share/1HCqP6YsvC/" target="_blank" style="color: #1877F2; font-size: 20px;">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+                <a href="mailto:eskoldingkolakdingin@gmail.com" style="color: #EA4335; font-size: 20px;">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+            </div>
+            <p style="margin-top: 15px; font-size: 14px; color: rgba(255,255,255,0.8);">
+                Semua kolak kami dibuat dengan bahan segar setiap hari!
+            </p>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>© 2025 <strong>KolakKita</strong>. All Rights Reserved. | Made with <i class="fa-solid fa-heart" style="color:#f8b400;"></i> for Kolak Lovers</p>
+    </div>
 </footer>
+
+<script>
+    // DOM Elements
+    const contactForm = document.getElementById('contactForm');
+    const contactPhone = document.getElementById('contactPhone');
+    
+    // Auto-format phone number
+    contactPhone.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        e.target.value = value;
+    });
+    
+    // Form submission handler
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const name = document.getElementById('contactName').value.trim();
+        const email = document.getElementById('contactEmail').value.trim();
+        const phone = document.getElementById('contactPhone').value.trim();
+        const subject = document.getElementById('contactSubject').value;
+        const message = document.getElementById('contactMessage').value.trim();
+        
+        // Basic validation
+        if (!name || !email || !phone || !subject || !message) {
+            alert('Harap lengkapi semua field yang wajib diisi.');
+            return;
+        }
+        
+        if (!email.includes('@') || !email.includes('.')) {
+            alert('Harap masukkan email yang valid.');
+            return;
+        }
+        
+        if (phone.length < 10) {
+            alert('Harap masukkan nomor WhatsApp yang valid (minimal 10 digit).');
+            return;
+        }
+        
+        // Prepare WhatsApp message
+        const whatsappMessage = `Halo KolakKita! Saya ${name}.\n\n` +
+                               `Email: ${email}\n` +
+                               `No. WhatsApp: ${phone}\n` +
+                               `Subjek: ${document.getElementById('contactSubject').options[document.getElementById('contactSubject').selectedIndex].text}\n` +
+                               `Pesan:\n${message}\n\n` +
+                               `Mohon ditanggapi ya, terima kasih!`;
+        
+        // Encode message for URL
+        const encodedMessage = encodeURIComponent(whatsappMessage);
+        
+        // Create WhatsApp URL
+        const whatsappUrl = `https://wa.me/6285270701926?text=${encodedMessage}`;
+        
+        // Open WhatsApp in new tab
+        window.open(whatsappUrl, '_blank');
+        
+        // Show success message
+        alert('Terima kasih! Pesan Anda akan segera kami balas via WhatsApp.');
+        
+        // Reset form (optional)
+        contactForm.reset();
+        
+        // Alternatively, you could send the data to a server
+        // saveContactMessage({ name, email, phone, subject, message });
+    });
+    
+    // Function to save contact message (for backend integration)
+    function saveContactMessage(data) {
+        // This would be an API call to your backend
+        const contactData = {
+            ...data,
+            timestamp: new Date().toISOString(),
+            status: 'new'
+        };
+        
+        // Save to localStorage for demo purposes
+        const existingMessages = JSON.parse(localStorage.getItem('kolakkita_contact_messages')) || [];
+        existingMessages.push(contactData);
+        localStorage.setItem('kolakkita_contact_messages', JSON.stringify(existingMessages));
+        
+        console.log('Contact message saved:', contactData);
+        
+        // In production, you would send this to your server
+        // fetch('/api/contact', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(contactData)
+        // });
+    }
+    
+    // Load existing messages on page load (for admin purposes)
+    document.addEventListener('DOMContentLoaded', function() {
+        const messages = JSON.parse(localStorage.getItem('kolakkita_contact_messages')) || [];
+        console.log('Total contact messages:', messages.length);
+        
+        // You could display message count for admin
+        // if (window.location.search.includes('admin')) {
+        //     displayMessageCount(messages.length);
+        // }
+    });
+</script>
 
 </body>
 </html>

@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan Saya - KolakKita</title>
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* MAIN CONTENT */
+        .main-content {
+            padding: 100px 20px 60px;
+            min-height: 70vh;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #5a3921;
+            font-size: 36px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: #f8b400;
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        /* ORDER CONTAINER */
+        .order-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {opacity:0; transform: translateY(20px);}
+            to {opacity:1; transform: translateY(0);}
+        }
+
+        /* ORDER STATUS */
+        .order-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #f8b400, #ff6b00);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(248, 180, 0, 0.3);
+        }
+
+        .order-status h2 {
+            margin: 0;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .item-count {
+            background: white;
+            color: #ff6b00;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* EMPTY ORDER */
+        .empty-order {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .empty-order i {
+            font-size: 60px;
+            color: #e0d6c2;
+            margin-bottom: 20px;
+        }
+
+        .empty-order h3 {
+            color: #5a3921;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .empty-order p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        /* ORDER TABLE */
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .order-table thead {
+            background: linear-gradient(135deg, #5a3921, #8B4513);
+            color: white;
+        }
+
+        .order-table th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .order-table td {
+            padding: 18px 15px;
+            border-bottom: 1px solid #e0d6c2;
+            vertical-align: middle;
+        }
+
+        .order-table tbody tr:hover {
+            background: rgba(248, 180, 0, 0.05);
+        }
+
+        /* PRODUCT COLUMN */
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .product-img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #f8b400;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #5a3921;
+            font-size: 16px;
+        }
+
+        .product-temp {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        /* QUANTITY CONTROLS */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            background: #f8b400;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: #e6a300;
+            transform: scale(1.1);
+        }
+
+        .qty-input {
+            width: 50px;
+            text-align: center;
+            padding: 5px;
+            border: 2px solid #e0d6c2;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* PRICE */
+        .price-col {
+            font-weight: bold;
+            color: #5a3921;
+            font-size: 16px;
+        }
+
+        /* REMOVE BUTTON */
+        .btn-remove {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.25s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-remove:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+
+        /* ORDER SUMMARY */
+        .order-summary {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0d6c2;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+            font-size: 18px;
+            font-weight: bold;
+            color: #5a3921;
+        }
+
+        .total-amount {
+            color: #ff6b00;
+            font-size: 24px;
+        }
+
+        /* ACTION BUTTONS */
+        .order-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .btn-continue {
+            background: #e0d6c2;
+            color: #5a3921;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-continue:hover {
+            background: #d0c6b2;
+            transform: translateY(-2px);
+        }
+
+        .btn-checkout {
+            background: linear-gradient(135deg, #f8b400, #ff6b00);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(248, 180, 0, 0.3);
+        }
+
+        .btn-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(248, 180, 0, 0.4);
+        }
+
+        .btn-checkout:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* PROMO BADGE */
+        .promo-badge {
+            background: #ff6b00;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        /* PRODUCT TAG STYLES */
+        .product-tag {
+            background: rgba(248, 180, 0, 0.1);
+            color: #f8b400;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            border: 1px solid rgba(248, 180, 0, 0.3);
+        }
+
+        .product-tag.hot {
+            background: rgba(255, 107, 0, 0.2);
+            color: #ff6b00;
+            border-color: rgba(255, 107, 0, 0.3);
+        }
+
+        .product-tag.cold {
+            background: rgba(0, 150, 255, 0.1);
+            color: #0096ff;
+            border-color: rgba(0, 150, 255, 0.3);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 80px 15px 40px;
+            }
+            
+            .order-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .product-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .product-img {
+                width: 60px;
+                height: 45px;
+            }
+            
+            .order-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn-continue, .btn-checkout {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .order-status {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- navbar -->
+<iframe src="navbar.html" class="navframe" scrolling="no"></iframe>
+
+<div class="main-content">
+    <h1 class="page-title"><i class="fa-solid fa-bowl-food"></i> Pesanan Saya</h1>
+    
+    <div class="order-container">
+        <!-- Order Status -->
+        <div class="order-status" id="orderStatus">
+            <h2><i class="fa-solid fa-clipboard-list"></i> Detail Pesanan</h2>
+            <h2>Total Item: <span class="item-count" id="totalItems">0</span></h2>
+        </div>
+        
+        <!-- Empty Order Message -->
+        <div class="empty-order" id="emptyOrder" style="display: none;">
+            <i class="fa-solid fa-mug-saucer"></i>
+            <h3>Belum Ada Pesanan</h3>
+            <p>Yuk, pesan kolak favoritmu untuk menemani hari yang lebih manis!</p>
+            <a href="produk.html" class="btn-checkout">
+                <i class="fa-solid fa-bowl-food"></i> Lihat Menu Kolak
+            </a>
+        </div>
+        
+        <!-- Order Table -->
+        <div id="orderContent">
+            <table class="order-table" id="orderTable">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;">Menu Kolak</th>
+                        <th style="width: 15%;">Harga</th>
+                        <th style="width: 20%;">Jumlah</th>
+                        <th style="width: 15%;">Subtotal</th>
+                        <th style="width: 10%;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="orderItems">
+                    <!-- Items will be populated by JavaScript -->
+                </tbody>
+            </table>
+            
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <div class="summary-row">
+                    <span>Subtotal Pesanan</span>
+                    <span id="subtotal">Rp 0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Ongkos Kirim 
+                        <span class="promo-badge" id="shippingBadge">GRATIS</span>
+                    </span>
+                    <span id="shipping">Gratis</span>
+                </div>
+                <div class="summary-row">
+                    <span>Diskon 
+                        <span class="promo-badge" id="discountBadge">-Rp 10.000</span>
+                    </span>
+                    <span id="discount">Rp 0</span>
+                </div>
+                <div class="summary-row">
+                    <strong>Total Pembayaran</strong>
+                    <strong class="total-amount" id="totalAmount">Rp 0</strong>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="order-actions">
+                <a href="produk.html" class="btn-continue">
+                    <i class="fa-solid fa-plus"></i> Tambah Pesanan
+                </a>
+                <button class="btn-checkout" id="checkoutBtn" onclick="proceedToCheckout()">
+                    <i class="fa-solid fa-credit-card"></i> Lanjut ke Pembayaran
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>KolakKita</h3>
+            <p>"Semangkuk Manis untuk Hari yang Lebih Baik."</p>
+            <p><i class="fa-solid fa-location-dot"></i> Kampung Banjar 1, Kotapinang</p>
+            <p style="margin-left: 28px; margin-top: -10px; color: rgba(255,255,255,0.9); font-size: 14px;">
+                Desa Kotapinang, Kec. Kotapinang<br>
+                Kab. Labuhanbatu Selatan, Sumatera Utara
+            </p>
+            <p><i class="fa-solid fa-phone"></i> 0852-7070-1926</p>
+            <p><i class="fa-solid fa-envelope"></i> eskoldingkolakdingin@gmail.com</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Jam Operasional</h3>
+            <p><i class="fa-solid fa-clock"></i> Senin - Minggu: 09:00 - 21:00 WIB</p>
+            <p><i class="fa-solid fa-calendar-day"></i> Hari Libur: Tetap Buka</p>
+            <p><i class="fa-solid fa-truck"></i> Gratis Ongkir min. Rp 50.000</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Lokasi Kami</h3>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.3925794567667!2d99.652123!3d1.798146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3027c9b8e6a5b5a5%3A0x2e0b9c7b8b5b5b5b!2sSimpang%20Kampung%20Banjar%201%2C%20Kotapinang%2C%20Labuhan%20Batu%20Selatan%2C%20Sumatera%20Utara!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                    width="100%" 
+                    height="150" 
+                    style="border:0; border-radius:8px;"
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+                <p style="margin-top: 10px; font-size: 14px;">
+                    <a href="https://maps.app.goo.gl/V6rRut9iKuwFHKV58" target="_blank" 
+                       style="color: #f8b400; text-decoration: none;">
+                        <i class="fa-solid fa-map-pin"></i> Buka di Google Maps
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>© 2025 <strong>KolakKita</strong>. All Rights Reserved. | Made with <i class="fa-solid fa-heart" style="color:#f8b400;"></i> for Kolak Lovers</p>
+    </div>
+</footer>
+
+<script>
+    // Load order from localStorage
+    function loadOrder() {
+        const order = JSON.parse(localStorage.getItem('kolakkita_cart')) || [];
+        const orderItems = document.getElementById('orderItems');
+        const emptyOrder = document.getElementById('emptyOrder');
+        const orderContent = document.getElementById('orderContent');
+        const totalItems = document.getElementById('totalItems');
+        const subtotal = document.getElementById('subtotal');
+        const totalAmount = document.getElementById('totalAmount');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const shippingBadge = document.getElementById('shippingBadge');
+        const discountBadge = document.getElementById('discountBadge');
+        
+        // Update item count
+        const itemCount = order.reduce((sum, item) => sum + item.quantity, 0);
+        totalItems.textContent = itemCount;
+        
+        // Update navbar count
+        if (window.parent && window.parent.updateCartCount) {
+            window.parent.updateCartCount(itemCount);
+        }
+        
+        // Show empty order message if order is empty
+        if (order.length === 0) {
+            emptyOrder.style.display = 'block';
+            orderContent.style.display = 'none';
+            checkoutBtn.disabled = true;
+            return;
+        }
+        
+        emptyOrder.style.display = 'none';
+        orderContent.style.display = 'block';
+        checkoutBtn.disabled = false;
+        
+        // Generate order items
+        let orderHTML = '';
+        let calculatedSubtotal = 0;
+        
+        order.forEach((item, index) => {
+            const itemTotal = item.harga * item.quantity;
+            calculatedSubtotal += itemTotal;
+            
+            // Determine temperature tag
+            const tempTag = item.tags?.includes('cold') ? 'Dingin' : 'Hangat';
+            const tempClass = item.tags?.includes('cold') ? 'cold' : 'hot';
+            
+            orderHTML += `
+                <tr>
+                    <td>
+                        <div class="product-info">
+                            <img src="${item.img || 'img/default-kolak.jpg'}" alt="${item.nama}" class="product-img">
+                            <div>
+                                <div class="product-name">${item.nama}</div>
+                                <div class="product-temp">
+                                    <span class="product-tag ${tempClass}">${tempTag}</span>
+                                    <span style="color: #999; font-size: 11px; margin-left: 5px;">Rp 8.000/porsi</span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="price-col">Rp ${item.harga.toLocaleString()}</td>
+                    <td>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                            <input type="number" class="qty-input" value="${item.quantity}" 
+                                   min="1" max="10" onchange="updateQuantityInput(${index}, this.value)">
+                            <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                        </div>
+                    </td>
+                    <td class="price-col">Rp ${itemTotal.toLocaleString()}</td>
+                    <td>
+                        <button class="btn-remove" onclick="removeItem(${index})">
+                            <i class="fa-solid fa-trash"></i> Hapus
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+        
+        orderItems.innerHTML = orderHTML;
+        
+        // Calculate totals
+        const shipping = calculatedSubtotal >= 50000 ? 0 : 10000;
+        const discount = calculatedSubtotal >= 100000 ? 10000 : 0;
+        const calculatedTotal = calculatedSubtotal + shipping - discount;
+        
+        // Update promo badges
+        shippingBadge.style.display = calculatedSubtotal >= 50000 ? 'inline' : 'none';
+        discountBadge.style.display = calculatedSubtotal >= 100000 ? 'inline' : 'none';
+        
+        // Update display
+        subtotal.textContent = `Rp ${calculatedSubtotal.toLocaleString()}`;
+        document.getElementById('shipping').textContent = shipping === 0 ? 'Gratis' : `Rp ${shipping.toLocaleString()}`;
+        document.getElementById('discount').textContent = discount === 0 ? 'Rp 0' : `-Rp ${discount.toLocaleString()}`;
+        totalAmount.textContent = `Rp ${calculatedTotal.toLocaleString()}`;
+    }
+    
+    // Update quantity with buttons
+    function updateQuantity(index, change) {
+        const order = JSON.parse(localStorage.getItem('kolakkita_cart')) || [];
+        
+        if (order[index]) {
+            order[index].quantity += change;
+            
+            // Remove item if quantity becomes 0
+            if (order[index].quantity <= 0) {
+                order.splice(index, 1);
+            } else if (order[index].quantity > 10) {
+                order[index].quantity = 10; // Max 10 per item
+                alert('Maksimal 10 porsi per menu untuk menjaga kualitas.');
+            }
+            
+            localStorage.setItem('kolakkita_cart', JSON.stringify(order));
+            loadOrder();
+        }
+    }
+    
+    // Update quantity with input
+    function updateQuantityInput(index, value) {
+        const quantity = parseInt(value);
+        
+        if (isNaN(quantity) || quantity < 1) {
+            updateQuantity(index, -1); // Decrease by 1 if invalid
+            return;
+        }
+        
+        if (quantity > 10) {
+            alert('Maksimal 10 porsi per menu untuk menjaga kualitas.');
+            quantity = 10;
+        }
+        
+        const order = JSON.parse(localStorage.getItem('kolakkita_cart')) || [];
+        if (order[index]) {
+            order[index].quantity = quantity;
+            localStorage.setItem('kolakkita_cart', JSON.stringify(order));
+            loadOrder();
+        }
+    }
+    
+    // Remove item from order
+    function removeItem(index) {
+        if (confirm('Apakah Anda yakin ingin menghapus menu ini dari pesanan?')) {
+            const order = JSON.parse(localStorage.getItem('kolakkita_cart')) || [];
+            const removedItem = order[index].nama;
+            order.splice(index, 1);
+            localStorage.setItem('kolakkita_cart', JSON.stringify(order));
+            loadOrder();
+            
+            // Show notification
+            alert(`"${removedItem}" telah dihapus dari pesanan.`);
+        }
+    }
+    
+    // Proceed to checkout
+    function proceedToCheckout() {
+        const order = JSON.parse(localStorage.getItem('kolakkita_cart')) || [];
+        
+        if (order.length === 0) {
+            alert('Pesanan Anda masih kosong.');
+            return;
+        }
+        
+        // Calculate total
+        const subtotal = order.reduce((sum, item) => sum + (item.harga * item.quantity), 0);
+        const shipping = subtotal >= 50000 ? 0 : 10000;
+        const discount = subtotal >= 100000 ? 10000 : 0;
+        const total = subtotal + shipping - discount;
+        
+        // Save order summary for checkout page
+        const orderSummary = {
+            items: order,
+            subtotal: subtotal,
+            shipping: shipping,
+            discount: discount,
+            total: total,
+            timestamp: new Date().toISOString(),
+            isInstant: false  // This is NOT instant checkout
+        };
+        
+        localStorage.setItem('kolakkita_order', JSON.stringify(orderSummary));
+        
+        // Redirect to payment page
+        window.location.href = 'pembayaran.html';
+    }
+    
+    // Clear order (for testing)
+    function clearOrder() {
+        if (confirm('Yakin ingin mengosongkan pesanan?')) {
+            localStorage.removeItem('kolakkita_cart');
+            loadOrder();
+            alert('Pesanan telah dikosongkan.');
+        }
+    }
+    
+    // Initialize order when page loads
+    document.addEventListener('DOMContentLoaded', loadOrder);
+    
+    // Optional: Add sample data for demo (REMOVE IN PRODUCTION)
+    function addSampleOrder() {
+        const sampleOrder = [
+            {
+                id: 1,
+                nama: "Kolak Pisang Original",
+                harga: 8000,
+                img: "img/kolak-pisang.jpg",
+                quantity: 2,
+                tags: ["hot", "best"]
+            },
+            {
+                id: 9,
+                nama: "Kolak Campur Spesial",
+                harga: 8000,
+                img: "img/kolak-campur-spesial.jpg",
+                quantity: 1,
+                tags: ["hot", "best"]
+            }
+        ];
+        
+        localStorage.setItem('kolakkita_cart', JSON.stringify(sampleOrder));
+        loadOrder();
+        alert('Contoh pesanan telah ditambahkan untuk demo!');
+    }
+</script>
+
+</body>
+</html>
